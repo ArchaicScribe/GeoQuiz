@@ -1,14 +1,17 @@
 package edu.cnm.deepdive.geoquiz;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+
+  private static final String TAG = "QuizActivity";
+  private static final String KEY_INDEX = "index";
 
   private Button mTrueButton;
   private Button mFalseButton;
@@ -29,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    Log.d(TAG, "onCreate(Bundle) called");
     setContentView(R.layout.activity_main);
 
     mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
@@ -58,6 +62,47 @@ public class MainActivity extends AppCompatActivity {
       }
     });
     updateQuestion();
+  }
+
+  @Override
+  protected void onStart() {
+    super.onStart();
+    Log.d(TAG, "onStart() called");
+  }
+
+  @Override
+  protected void onPostResume() {
+    super.onPostResume();
+    Log.d(TAG, "onResume() called");
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    Log.d(TAG, "onPause() called");
+  }
+
+  @Override
+  protected void onSaveInstanceState(Bundle savedInstancesState) {
+    super.onSaveInstanceState(savedInstancesState);
+    Log.i(TAG, "onSaveInstanceState");
+    savedInstancesState.putInt(KEY_INDEX, mCurrentIndex);
+
+    if (savedInstancesState != null){
+      mCurrentIndex = savedInstancesState.getInt(KEY_INDEX, 0);
+    }
+  }
+
+  @Override
+  protected void onStop() {
+    super.onStop();
+    Log.d(TAG, "onStop() called");
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    Log.d(TAG, "onDestroy() called");
   }
 
   private void updateQuestion() {
