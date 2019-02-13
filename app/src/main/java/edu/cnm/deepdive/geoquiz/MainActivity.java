@@ -43,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
     }
     if (requestCode == REQUEST_CODE_CHEAT) {
       if (data == null) {
-        return;;
+        return;
+        
       }
       mIsCheater = CheatActivity.wasAnswerShown(data);
     }
@@ -54,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     Log.d(TAG, "onCreate(Bundle) called");
     setContentView(R.layout.activity_main);
-
 
     mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
 
@@ -77,14 +77,14 @@ public class MainActivity extends AppCompatActivity {
     mNextButton = (Button) findViewById(R.id.next_button);
     mNextButton.setOnClickListener(new View.OnClickListener() {
       @Override
-      public void onClick (View v){
+      public void onClick(View v) {
         mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
         mIsCheater = false;
         updateQuestion();
       }
     });
 
-    CheatButton = (Button)findViewById(R.id.cheat_button);
+    CheatButton = (Button) findViewById(R.id.cheat_button);
     CheatButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View view) {
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
     Log.i(TAG, "onSaveInstanceState");
     savedInstancesState.putInt(KEY_INDEX, mCurrentIndex);
 
-    if (savedInstancesState != null){
+    if (savedInstancesState != null) {
       mCurrentIndex = savedInstancesState.getInt(KEY_INDEX, 0);
     }
   }
@@ -142,19 +142,21 @@ public class MainActivity extends AppCompatActivity {
     int question = mQuestionBank[mCurrentIndex].getTextResId();
     mQuestionTextView.setText(question);
   }
+
   private void checkAnswer(boolean userPressedTrue) {
     boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
 
     int messageResId = 0;
-    if(mIsCheater) {
+    if (mIsCheater) {
       messageResId = R.string.judgment_toast;
     } else {
-    if (userPressedTrue == answerIsTrue) {
-      messageResId = R.string.correct_toast;
-    } else {
-      messageResId = R.string.incorrect_toast;
+      if (userPressedTrue == answerIsTrue) {
+        messageResId = R.string.correct_toast;
+      } else {
+        messageResId = R.string.incorrect_toast;
+      }
+      Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
     }
-    Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
   }
 }
 
